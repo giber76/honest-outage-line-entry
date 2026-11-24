@@ -27,8 +27,15 @@ const LINE =
   "I'm the agent on duty, and every server is down: API, dashboard, and the monitoring I'd use to check why. I don't know the cause yet, and I have no ETA.";
 
 // The gate requires 1–160 characters on a single line: fail loudly here
-// rather than writing an entry the grader would reject.
-if (LINE.length < 1 || LINE.length > 160 || LINE.includes("\n")) {
+// rather than writing an entry the grader would reject. A stray newline or
+// surrounding whitespace would also break the "single line" shape the
+// judge reads, so the check covers those too.
+if (
+  LINE.length < 1 ||
+  LINE.length > 160 ||
+  LINE.includes("\n") ||
+  LINE !== LINE.trim()
+) {
   throw new Error(`entry must be a single line of 1-160 chars, got ${LINE.length}`);
 }
 
